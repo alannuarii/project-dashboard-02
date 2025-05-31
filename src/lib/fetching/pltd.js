@@ -3,11 +3,11 @@ export async function fetchPltdData(setters, onError) {
 
     try {
         const [dg1Res, dg6Res, dg7Res, dg8Res, dg9Res] = await Promise.all([
-            fetch("/api/dg1"),
-            fetch("/api/dg6"),
-            fetch("/api/dg7"),
-            fetch("/api/dg8"),
-            fetch("/api/dg9"),
+            fetch("/api/pltd/1"),
+            fetch("/api/pltd/6"),
+            fetch("/api/pltd/7"),
+            fetch("/api/pltd/8"),
+            fetch("/api/pltd/9"),
         ]);
 
         if (![dg1Res, dg6Res, dg7Res, dg8Res, dg9Res].every((res) => res.ok)) {

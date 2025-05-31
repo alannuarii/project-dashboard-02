@@ -1,8 +1,9 @@
-import { createSignal, onCleanup, onMount, Show, createEffect } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
+import { A } from "@solidjs/router";
 import { useParams } from "@solidjs/router";
 import { fetchUnitData } from "~/lib/fetching/unit";
-import { fetchChartData } from "~/lib/fetching/chart";
-import Chart from "chart.js/auto";
+import { updateChart, initChart } from "~/lib/utils/chart";
+import "./index.css";
 
 export default function Unit() {
   const params = useParams();
@@ -15,44 +16,6 @@ export default function Unit() {
   const currentData = [];
 
   let activePowerChart, reactivePowerChart, voltageChart, currentChart;
-
-  const initChart = (canvasRef, label, dataArray, datasetLabels, colors) => {
-    return new Chart(canvasRef, {
-      type: "line",
-      data: {
-        labels: [],
-        datasets: datasetLabels.map((l, i) => ({
-          label: l,
-          data: [],
-          borderColor: colors[i],
-          fill: false,
-          tension: 0.3,
-        })),
-      },
-      options: {
-        animation: false,
-        scales: {
-          x: { display: false },
-          y: { beginAtZero: true },
-        },
-      },
-    });
-  };
-
-  const updateChart = (chart, values) => {
-    const now = new Date().toLocaleTimeString();
-    chart.data.labels.push(now);
-    chart.data.datasets.forEach((ds, i) => {
-      ds.data.push(values[i]);
-    });
-
-    if (chart.data.labels.length > 20) {
-      chart.data.labels.shift();
-      chart.data.datasets.forEach((ds) => ds.data.shift());
-    }
-
-    chart.update();
-  };
 
   onMount(() => {
     const fetchData = () => {
@@ -135,8 +98,8 @@ export default function Unit() {
                   </div>
 
                   <div class="card bg-dark rounded-0 border-0 p-3">
-                    <h6 class="text-light ">Voltage Generator</h6>
-                    <div class="row">
+                    <h6 class="text-light mb-2">Voltage Generator</h6>
+                    <div class="row gx-0">
                       <div class="col-4">
                         <div class="card rounded-0 d-none d-md-block">
                           <div class="card-header bg-dark text-light">Voltage L1-L2</div>
@@ -165,8 +128,8 @@ export default function Unit() {
                   </div>
 
                   <div class="card bg-dark rounded-0 border-0 p-3">
-                    <h6 class="text-light ">Current Generator</h6>
-                    <div class="row">
+                    <h6 class="text-light mb-2">Current Generator</h6>
+                    <div class="row gx-0">
                       <div class="col-4">
                         <div class="card rounded-0 d-none d-md-block">
                           <div class="card-header bg-dark text-light">Current L1</div>
@@ -201,7 +164,7 @@ export default function Unit() {
             <div class="col-8 py-3 text-light text-center">
               <div class="row mb-4">
                 <div class="col-6">
-                  <div class="card rounded-0 mb-2 mx-3">
+                  <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Active Power</div>
                     <div class="card-body bg-dark-subtle">
                       <canvas ref={apRef}></canvas>
@@ -209,7 +172,7 @@ export default function Unit() {
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card rounded-0 mb-2 mx-3">
+                  <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Reactive Power</div>
                     <div class="card-body bg-dark-subtle">
                       <canvas ref={rpRef}></canvas>
@@ -219,7 +182,7 @@ export default function Unit() {
               </div>
               <div class="row">
                 <div class="col-6">
-                  <div class="card rounded-0 mb-2 mx-3">
+                  <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Voltage Generator</div>
                     <div class="card-body bg-dark-subtle">
                       <canvas ref={voltRef}></canvas>
@@ -227,7 +190,7 @@ export default function Unit() {
                   </div>
                 </div>
                 <div class="col-6">
-                  <div class="card rounded-0 mb-2 mx-3">
+                  <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Current Generator</div>
                     <div class="card-body bg-dark-subtle">
                       <canvas ref={currRef}></canvas>
@@ -235,6 +198,9 @@ export default function Unit() {
                   </div>
                 </div>
               </div>
+              <A href={`/pltd/${params.unit}/chart`} class="mt-2 rounded-0 btn btn-sm btn-light">
+                Detail Chart
+              </A>
             </div>
           </div>
         }

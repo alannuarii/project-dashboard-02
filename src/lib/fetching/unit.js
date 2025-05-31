@@ -1,6 +1,6 @@
 export async function fetchUnitData(unit, setData, onError) {
     try {
-        const response = await fetch(`/api/dg${unit}`);
+        const response = await fetch(`/api/pltd/${unit}`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch data for unit ${unit}`);

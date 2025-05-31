@@ -1,9 +1,9 @@
-export async function fetchChartData(unit, interval, setData, onError) {
+export async function fetchChartData(unit, timeframe, setData, onError) {
   try {
-    const response = await fetch(`/api/chart?unit=${unit}&interval=${interval}`);
+    const response = await fetch(`/api/pltd/${unit}/${timeframe}`);
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch data for unit ${unit}: ${response.statusText}`);
+      throw new Error(`Failed to fetch data for unit ${unit}`);
     }
 
     const data = await response.json();

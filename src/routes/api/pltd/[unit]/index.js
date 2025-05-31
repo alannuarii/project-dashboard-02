@@ -1,17 +1,20 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { queryInfluxDB } from '../../../lib/db/influxdb.js';
+import { queryInfluxDB } from '../../../../lib/db/influxdb.js';
 
 const token = process.env.TOKEN;
 const org = process.env.ORG;
 const bucket = process.env.BUCKET;
 const url = process.env.URL;
 
-const query = `
+export async function GET({ params }) {
+  const { unit } = params
+
+  const query = `
 from(bucket: "${bucket}")
   |> range(start: -1m)
-  |> filter(fn: (r) => r._measurement == "PM-DG6")
+  |> filter(fn: (r) => r._measurement == "PM-DG${unit}")
   |> filter(fn: (r) => 
     r._field == "Current L1" or 
     r._field == "Current L2" or 
@@ -26,8 +29,6 @@ from(bucket: "${bucket}")
   )
   |> last()
 `;
-
-export async function GET() {
   try {
     const result = await queryInfluxDB(token, org, url, query);
 
