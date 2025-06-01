@@ -1,6 +1,5 @@
 import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import Unit from "~/components/Unit";
-import Timer from "~/components/Timer";
 import { fetchPltdData } from "~/lib/fetching/pltd";
 import "./index.css";
 
@@ -53,10 +52,6 @@ export default function PltdPage() {
           when={error()}
           fallback={
             <div class="row text-center">
-              <h4 class="text-light mb-2 d-md-none">Dashboard PLTD Tahuna</h4>
-              <div class="mb-2 d-md-none">
-                <Timer />
-              </div>
               <Show when={isDataAvailable(dg9Data()) || isDataAvailable(dg8Data()) || isDataAvailable(dg7Data()) || isDataAvailable(dg6Data()) || isDataAvailable(dg1Data())}>
                 <h5 class="text-light freq">{frequency().toFixed(2)} Hz</h5>
               </Show>

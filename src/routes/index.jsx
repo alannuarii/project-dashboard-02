@@ -1,17 +1,15 @@
-import { Title } from "@solidjs/meta";
+import { A } from "@solidjs/router";
 
 export default function Home() {
+
   return (
     <main>
-      <Title>Dashboard PLTD Tahuna</Title>
-      <h1>Hello world!</h1>
-      <p>
-        Visit{" "}
-        <a href="https://start.solidjs.com" target="_blank">
-          start.solidjs.com
-        </a>{" "}
-        to learn how to build SolidStart apps.
-      </p>
+      <A href="/pltd" class="btn btn-success">
+        PLTD Tahuna
+      </A>
+      <A href="/plts" class="btn btn-warning">
+        PLTS Sangihe
+      </A>
     </main>
   );
 }

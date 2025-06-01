@@ -1,0 +1,11 @@
+button {
+  margin: 0px;
+  font-size: 0.8rem !important;
+  border: none !important;
+}
+
+button:hover {
+  background-color: inherit !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+}

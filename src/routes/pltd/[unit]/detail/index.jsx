@@ -2,7 +2,8 @@ import { createSignal, onCleanup, onMount, createEffect, Show } from "solid-js";
 import { useParams } from "@solidjs/router";
 import { fetchUnitData } from "~/lib/fetching/unit";
 import Chart from "chart.js/auto";
-import { updateChart} from "~/lib/utils/chart";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import { updateChart } from "~/lib/utils/chart";
 
 export default function Unit() {
   const params = useParams();
@@ -19,6 +20,8 @@ export default function Unit() {
   // simpan data terbaru untuk update chart
   let latestData = {};
 
+  Chart.register(ChartDataLabels);
+
   const initChart = (canvasRef, datasetLabels, colors) => {
     return new Chart(canvasRef, {
       type: "line",
@@ -28,21 +31,53 @@ export default function Unit() {
           label: l,
           data: [],
           borderColor: colors[i],
+          backgroundColor: colors[i],
           fill: false,
           tension: 0.3,
+          datalabels: {
+            align: "top",
+            anchor: "end",
+            color: "#000000",
+            font: {
+              weight: "bold",
+            },
+            formatter: (value) => value.toFixed(2),
+          },
         })),
       },
       options: {
+        plugins: {
+          datalabels: {
+            display: true,
+          },
+          legend: {
+            labels: {
+              color: "#000000",
+            },
+          },
+          tooltip: {
+            enabled: true,
+          },
+        },
         animation: false,
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-          x: { display: false },
+          x: {
+            display: false,
+            ticks: {
+              color: "#000000",
+            },
+          },
           y: {
             beginAtZero: false,
+            ticks: {
+              color: "#000000",
+            },
           },
         },
       },
+      plugins: [ChartDataLabels],
     });
   };
 
@@ -94,16 +129,8 @@ export default function Unit() {
               rp: data.find((d) => d._field === "Reactive Power")?._value || 0,
               pf: data.find((d) => d._field === "Power Factor")?._value || 0,
               fr: data.find((d) => d._field === "Frequency")?._value || 0,
-              voltages: [
-                data.find((d) => d._field === "Voltage L1 L2")?._value || 0,
-                data.find((d) => d._field === "Voltage L2 L3")?._value || 0,
-                data.find((d) => d._field === "Voltage L3 L1")?._value || 0,
-              ],
-              currents: [
-                data.find((d) => d._field === "Current L1")?._value || 0,
-                data.find((d) => d._field === "Current L2")?._value || 0,
-                data.find((d) => d._field === "Current L3")?._value || 0,
-              ],
+              voltages: [data.find((d) => d._field === "Voltage L1 L2")?._value || 0, data.find((d) => d._field === "Voltage L2 L3")?._value || 0, data.find((d) => d._field === "Voltage L3 L1")?._value || 0],
+              currents: [data.find((d) => d._field === "Current L1")?._value || 0, data.find((d) => d._field === "Current L2")?._value || 0, data.find((d) => d._field === "Current L3")?._value || 0],
             };
             // update chart hanya jika chart sudah ada
             if (currentChart) {
@@ -144,22 +171,25 @@ export default function Unit() {
       <Show
         when={error()}
         fallback={
-          <section class="text-center mx-5 py-3">
-            <div class="mb-3">
-              <select class="form-select" value={selectedChart()} onInput={(e) => setSelectedChart(e.currentTarget.value)}>
-                <option value="active">Active Power</option>
-                <option value="reactive">Reactive Power</option>
-                <option value="voltage">Voltage Generator</option>
-                <option value="current">Current Generator</option>
-                <option value="frequency">Frequency</option>
-                <option value="powerfactor">Power Factor</option>
-              </select>
+          <section class=" mx-5 py-3 text-center">
+            <div class="mb-3 ms-3">
+              <h6 class="text-light text-start">Select Parameter:</h6>
+              <div class="col-2">
+                <select class="form-select rounded-0" value={selectedChart()} onInput={(e) => setSelectedChart(e.currentTarget.value)}>
+                  <option value="active">Active Power</option>
+                  <option value="reactive">Reactive Power</option>
+                  <option value="voltage">Voltage Generator</option>
+                  <option value="current">Current Generator</option>
+                  <option value="frequency">Frequency</option>
+                  <option value="powerfactor">Power Factor</option>
+                </select>
+              </div>
             </div>
 
             {/* Hanya render canvas yang dipilih */}
             <Show when={selectedChart() === "active"}>
               <div class="card border-2 border-light rounded-0 mb-2 mx-3" style="height:500px;">
-                <div class="card-header bg-dark text-light">Active Power</div>
+                <div class="card-header bg-dark text-light ">Active Power</div>
                 <div class="card-body bg-dark-subtle">
                   <canvas ref={(el) => (apRef = el)}></canvas>
                 </div>

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import {queryInfluxDB} from '../../../../../lib/db/influxdb.js';
+import { queryInfluxDB } from '../../../../../lib/db/influxdb.js';
 
 const token = process.env.TOKEN;
 const org = process.env.ORG;
@@ -9,7 +9,17 @@ const bucket = process.env.BUCKET;
 const url = process.env.URL;
 
 export async function GET({ params }) {
-  const { unit, timeframe } = params
+  const { unit, timeframe } = params;
+
+  // Pilih resolusi agregasi berdasarkan timeframe
+  const aggregateWindow = {
+    '1h': '3m',
+    '6h': '15m',
+    '24h': '1h',
+    '3d': '3h',
+    '7d': '7h',
+    '30d': '24h'
+  }[timeframe]; // default 5 menit jika tidak dikenali
 
   const query = `
 from(bucket: "${bucket}")
@@ -27,7 +37,10 @@ from(bucket: "${bucket}")
     r._field == "Active Power" or 
     r._field == "Reactive Power"
   )
+  |> aggregateWindow(every: ${aggregateWindow}, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
 `;
+
   try {
     const result = await queryInfluxDB(token, org, url, query);
 

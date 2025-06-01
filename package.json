@@ -13,6 +13,9 @@
     "@solidjs/router": "^0.15.0",
     "@solidjs/start": "^1.1.0",
     "chart.js": "^4.4.9",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "solid-js": "^1.9.5",
     "vinxi": "^0.5.3"

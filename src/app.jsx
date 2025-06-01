@@ -5,6 +5,7 @@ import { Suspense } from "solid-js";
 import { MetaProvider, Title, Link } from "@solidjs/meta";
 import Header from "./components/Header";
 import Timer from "./components/Timer";
+import BackButton from "./components/Back";
 import "./app.css";
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
             <div class="py-3 d-flex justify-content-center align-items-center">
               <Timer />
             </div>
+            <BackButton />
             <Suspense>{props.children}</Suspense>
           </div>
         )}

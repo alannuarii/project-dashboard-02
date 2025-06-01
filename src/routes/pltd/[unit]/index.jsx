@@ -162,6 +162,17 @@ export default function Unit() {
 
             {/* RIGHT: Grafik Chart.js */}
             <div class="col-8 py-3 text-light text-center">
+              <div class="d-flex ms-3">
+                <A href={`/pltd/${params.unit}/detail`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  Detail Chart
+                </A>
+                <A href={`/pltd/${params.unit}/timeframe`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  Timeframe
+                </A>
+                <A href={`/pltd/${params.unit}/chart`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  Capability Curve
+                </A>
+              </div>
               <div class="row mb-4">
                 <div class="col-6">
                   <div class="card border-2 border-light rounded-0 mb-2 mx-3">
@@ -198,9 +209,6 @@ export default function Unit() {
                   </div>
                 </div>
               </div>
-              <A href={`/pltd/${params.unit}/chart`} class="mt-2 rounded-0 btn btn-sm btn-light">
-                Detail Chart
-              </A>
             </div>
           </div>
         }
