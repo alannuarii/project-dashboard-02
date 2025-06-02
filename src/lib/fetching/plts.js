@@ -31,7 +31,7 @@ export async function fetchPltsData() {
         wsData,
       };
     } catch (error) {
-      // Lempar error agar caller yang menangani
+      console.error("Fetch error:", error);
       throw error;
     }
   }

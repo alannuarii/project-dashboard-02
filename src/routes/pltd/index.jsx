@@ -83,7 +83,7 @@ export default function PltdPage() {
             </div>
           }
         >
-          <p class="text-center p-5">Error: {error()}</p>
+          <p class="text-center text-light p-5">Error: {error()}</p>
         </Show>
       </div>
     </section>

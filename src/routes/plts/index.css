@@ -1,0 +1,24 @@
+h4 {
+  margin: 0px;
+  font-size: 1.5rem;
+}
+.freq {
+  margin: 0px;
+  font-size: 2.3rem;
+  font-weight: 900;
+}
+.unit {
+  margin: 0px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+h6,
+.card-header {
+  margin: 0px;
+  font-size: 0.7rem;
+}
+.card-header,
+.card-body {
+  padding: 0.5rem;
+}
