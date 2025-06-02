@@ -22,3 +22,11 @@ h6,
 .card-body {
   padding: 0.5rem;
 }
+h5 {
+  margin: 0px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.card-ws {
+  width: 15%;
+}
