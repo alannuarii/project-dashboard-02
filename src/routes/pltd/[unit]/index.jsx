@@ -66,7 +66,7 @@ export default function Unit() {
         fallback={
           <div class="row">
             {/* LEFT: Informasi Unit */}
-            <div class="col-4 py-3">
+            <div class="col-4">
               <div class="card bg-dark rounded-0 border-2 border-light p-2 text-center">
                 <div class="mb-2">
                   <h5 class="unit text-light d-block">Unit {params.unit}</h5>
@@ -161,7 +161,7 @@ export default function Unit() {
             </div>
 
             {/* RIGHT: Grafik Chart.js */}
-            <div class="col-8 py-3 text-light text-center">
+            <div class="col-8 text-light text-center">
               <div class="d-flex ms-3">
                 <A href={`/pltd/${params.unit}/detail`} class="mb-2 rounded-0 btn btn-sm btn-light">
                   Detail Chart

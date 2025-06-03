@@ -171,7 +171,7 @@ export default function Unit() {
       <Show
         when={error()}
         fallback={
-          <section class=" mx-5 py-3 text-center">
+          <section class=" mx-5 text-center">
             <div class="mb-3 ms-3">
               <h6 class="text-light text-start">Select Parameter:</h6>
               <div class="col-2">

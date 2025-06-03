@@ -1,6 +1,9 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { A } from "@solidjs/router";
 import { fetchPltsData } from "~/lib/fetching/plts";
+import Feeder from "~/components/Feeder";
+import WeatherStation from "~/components/WeatherStation";
+import Battery from "~/components/Battery";
 import "./index.css";
 
 export default function PltsPage() {
@@ -73,7 +76,7 @@ export default function PltsPage() {
         <Show
           when={error()}
           fallback={
-            <div class="row text-center">
+            <div class="row mx-3 text-center">
               <Show when={isDataAvailable(lvsw1Data()) || isDataAvailable(lvsw2Data())}>
                 <h5 class="text-light freq mb-2">{frequency().toFixed(2)} Hz</h5>
               </Show>
@@ -84,144 +87,43 @@ export default function PltsPage() {
                     <span class="badge rounded-0 text-bg-success">Operating</span>
                   </Show>
                 </div>
-                <Show when={isDataAvailable(lvsw1Data())} fallback={<h5 class="text-center text-light">Loading</h5>}>
-                  <div class="card rounded-0 mb-2">
-                    <div class="card-header bg-dark text-light">Active Power</div>
-                    <div class="card-body bg-dark-subtle">
-                      <h6>{lvsw1Data()[0]?._value > 0 ? (lvsw1Data()[0]?._value + lvsw2Data()[0]?._value).toFixed(0) : 0} kW</h6>
-                    </div>
-                  </div>
-                  <div class="card rounded-0 mb-2 d-none d-md-block">
-                    <div class="card-header bg-dark text-light">Reactive Power</div>
-                    <div class="card-body bg-dark-subtle">
-                      <h6>{lvsw1Data()[4]?._value > 0 ? (lvsw1Data()[4]?._value + lvsw2Data()[4]?._value).toFixed(0) : 0} kVAR</h6>
-                    </div>
-                  </div>
-                  <div class="card rounded-0 d-none d-md-block mb-2">
-                    <div class="card-header bg-dark text-light">Power Factor</div>
-                    <div class="card-body bg-dark-subtle">
-                      <h6>{lvsw1Data()[3]?._value > 0 ? lvsw1Data()[3]?._value.toFixed(2) : 0}</h6>
-                    </div>
-                  </div>
-                </Show>
-                <div class="card rounded-0 mb-2">
-                  <div class="card-header bg-dark text-light">Battery Storage System</div>
-                  <div class="card-body bg-dark">
-                    <Show when={isDataAvailable(it1Data())} fallback={<h5 class="text-center text-light">Loading</h5>}>
-                      <div class="row gx-2 ">
-                        <div class="col-6">
-                          <div class="card rounded-0 mb-2">
-                            <div class="card-header bg-dark text-light">Feeder #1</div>
-                            <div class="card-body bg-dark-subtle">
-                              <h6>{it1Data()[0]?._value.toFixed(0)} kW</h6>
-                            </div>
+                <div className="row">
+                  <div className="col-6">
+                    <div class="mb-2">
+                      <Show when={isDataAvailable(lvsw1Data())} fallback={<h5 class="text-center text-light">Loading</h5>}>
+                        <div class="card rounded-0 mb-2">
+                          <div class="card-header bg-dark text-light">Active Power</div>
+                          <div class="card-body bg-dark-subtle">
+                            <h6>{lvsw1Data()[0]?._value > 0 ? (lvsw1Data()[0]?._value + lvsw2Data()[0]?._value).toFixed(0) : 0} kW</h6>
                           </div>
                         </div>
-                        <div class="col-6">
-                          <div class="card rounded-0 mb-2">
-                            <div class="card-header bg-dark text-light">Feeder #2</div>
-                            <div class="card-body bg-dark-subtle">
-                              <h6>{it2Data()[0]?._value.toFixed(0)} kW</h6>
-                            </div>
+                        <div class="card rounded-0 mb-2 d-none d-md-block">
+                          <div class="card-header bg-dark text-light">Reactive Power</div>
+                          <div class="card-body bg-dark-subtle">
+                            <h6>{lvsw1Data()[4]?._value > 0 ? (lvsw1Data()[4]?._value + lvsw2Data()[4]?._value).toFixed(0) : 0} kVAR</h6>
                           </div>
                         </div>
+                        <div class="card rounded-0 d-none d-md-block">
+                          <div class="card-header bg-dark text-light">Power Factor</div>
+                          <div class="card-body bg-dark-subtle">
+                            <h6>{lvsw1Data()[3]?._value > 0 ? lvsw1Data()[3]?._value.toFixed(2) : 0}</h6>
+                          </div>
+                        </div>
+                      </Show>
+                    </div>
+                    <div className="row">
+                      <div className="col-6">
+                        <Feeder feeder={1} lvswData={lvsw1Data()} />
                       </div>
-                      <div class="row gx-2">
-                        <div class="col-6">
-                          <div class="card rounded-0 mb-2">
-                            <div class="card-header bg-dark text-light">Status</div>
-                            <div class="card-body bg-dark-subtle">
-                              <Show
-                                when={it1Data()[0]?._value > 0}
-                                fallback={
-                                  <Show when={it1Data()[0]?._value <= -1} fallback={<h6>-</h6>}>
-                                    <h6>Charging</h6>
-                                  </Show>
-                                }
-                              >
-                                <h6>Discharging</h6>
-                              </Show>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-6">
-                          <div class="card rounded-0 mb-2">
-                            <div class="card-header bg-dark text-light">Status</div>
-                            <div class="card-body bg-dark-subtle">
-                              <Show
-                                when={it2Data()[0]?._value > 0}
-                                fallback={
-                                  <Show when={it2Data()[0]?._value <= -1} fallback={<h6>-</h6>}>
-                                    <h6>Charging</h6>
-                                  </Show>
-                                }
-                              >
-                                <h6>Discharging</h6>
-                              </Show>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Show>
-                  </div>
-                </div>
-                <div class="card rounded-0 mb-2">
-                  <div class="card-header bg-dark text-light">Weather Station</div>
-                  <Show when={isDataAvailable(wsData())} fallback={<h5 class="text-center text-light">Loading</h5>}>
-                    <div class="card-body bg-dark">
-                      <div class="d-flex flex-wrap justify-content-center">
-                        <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
-                          <div class="card-header bg-dark text-light">Air Temperature</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[0]?._value.toFixed(0)} {units(wsData()[0]?._field)}
-                            </h6>
-                          </div>
-                        </div>
-                        <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
-                          <div class="card-header bg-dark text-light">External Temperature</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[1]?._value.toFixed(0)} {units(wsData()[1]?._field)}
-                            </h6>
-                          </div>
-                        </div>
-                        <div class="card card-ws rounded-0 mb-2">
-                          <div class="card-header bg-dark text-light">Global Irradiance</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[2]?._value.toFixed(0)} {units(wsData()[2]?._field)}
-                            </h6>
-                          </div>
-                        </div>
-                        <div class="card card-ws rounded-0 mb-2">
-                          <div class="card-header bg-dark text-light">Relative Humidity</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[3]?._value.toFixed(0)} {units(wsData()[3]?._field)}
-                            </h6>
-                          </div>
-                        </div>
-                        <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
-                          <div class="card-header bg-dark text-light">Wind Direction</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[4]?._value.toFixed(0)}
-                              {units(wsData()[4]?._field)}
-                            </h6>
-                          </div>
-                        </div>
-                        <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
-                          <div class="card-header bg-dark text-light text-wrap">Wind Speed</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>
-                              {wsData()[5]?._value.toFixed(0)} {units(wsData()[5]?._field)}
-                            </h6>
-                          </div>
-                        </div>
+                      <div className="col-6">
+                        <Feeder feeder={2} lvswData={lvsw2Data()} />
                       </div>
                     </div>
-                  </Show>
+                  </div>
+                  <div className="col-6">
+                    <Battery itData={[it1Data(), it2Data()]} />
+                    <WeatherStation wsData={wsData()} units={units} />
+                  </div>
                 </div>
               </div>
             </div>

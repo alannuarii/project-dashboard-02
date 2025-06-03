@@ -398,7 +398,7 @@ export default function Unit() {
   });
 
   return (
-    <section class="mx-5 py-3">
+    <section class="mx-5">
       <div class="mb-3 d-flex ms-3">
         <div>
           <label class="text-light">Parameter:</label>
