@@ -380,6 +380,13 @@ export default function Unit() {
     chartInstance.update();
   };
 
+  createEffect(() => {
+    const currentData = data();
+    if (currentData && chartInstance) {
+      updateChart(currentData);
+    }
+  });
+
   // Lifecycle
   onMount(() => {
     initChart();
