@@ -4,6 +4,9 @@ import { fetchWSData } from "~/lib/fetching/weatherstation";
 import { fetchPMData } from "~/lib/fetching/pmPlts";
 import { fetchGoogleWeather } from "~/lib/fetching/googleWeather";
 import { updateChart, initChart } from "~/lib/utils/chart";
+import WeatherIcon from "~/components/Weather";
+import { convertToWITA } from "~/lib/utils/time";
+import { getWeatherDescription } from "~/lib/utils/weatherDesc";
 import "./index.css";
 
 export default function WeatherStationPage() {
@@ -61,18 +64,6 @@ export default function WeatherStationPage() {
       return "m/s";
     } else if (field === "Relative Humidity") {
       return "%";
-    } else if (field.includes("Voltage")) {
-      return "V";
-    } else if (field.includes("Current")) {
-      return "A";
-    } else if (field === "Generator Frequency") {
-      return "Hz";
-    } else if (field === "Power Factor") {
-      return "";
-    } else if (field === "Active Power") {
-      return "kW";
-    } else if (field === "Reactive Power") {
-      return "kVAR";
     }
   };
 
@@ -122,7 +113,7 @@ export default function WeatherStationPage() {
                 <div class="card bg-dark rounded-0 border-2 border-light p-2 text-center">
                   <div class="mb-2">
                     <h5 class="title text-light d-block mb-3">Weather Station</h5>
-                    <Show when={isDataAvailable(wsData())} fallback={<h5 class="text-center">Loading</h5>}>
+                    <Show when={isDataAvailable(wsData())} fallback={<h5 class="text-center text-light">Loading</h5>}>
                       <div class="card rounded-0 mb-2 mx-3">
                         <div class="card-header bg-dark text-light">Air Temperature</div>
                         <div class="card-body bg-dark-subtle">
@@ -180,10 +171,52 @@ export default function WeatherStationPage() {
                 </div>
               </div>
               <div class="col-8">
+                <div class="d-flex ms-3">
+                  <A href={`/plts/weatherstation/timeframe`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                    Timeframe
+                  </A>
+                </div>
+                <div class="card rounded-0 mb-2 mx-3">
+                  <div class="card-header bg-dark text-light">Weather Forecasting</div>
+                  <Show when={googleWeatherData() && googleWeatherData().length > 0} fallback={<h5 class="bg-dark text-light text-center">Loading</h5>}>
+                    <div class="card-body bg-dark px-4">
+                      <div class="row">
+                        <div className="col-4">
+                          <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
+                            <div class="card-header bg-dark text-light fw-bold">{convertToWITA(googleWeatherData()[0]?.startTime)} (NOW)</div>
+                            <div class="card-body bg-dark-subtle">
+                              <WeatherIcon data={googleWeatherData()[0]} />
+                              <h6 class="bg-dark py-1 text-warning fw-bold mt-2">{getWeatherDescription(googleWeatherData()[0]?.rawType, googleWeatherData()[0]?.cloudCover)}</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-4">
+                          <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
+                            <div class="card-header bg-dark text-light">{convertToWITA(googleWeatherData()[1]?.startTime)}</div>
+                            <div class="card-body bg-dark-subtle">
+                              <WeatherIcon data={googleWeatherData()[1]} />
+                              <h6 class="fw-bold py-1 mt-2">{getWeatherDescription(googleWeatherData()[1]?.rawType, googleWeatherData()[1]?.cloudCover)}</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-4">
+                          <div class="card card-ws rounded-0 mb-2 d-none d-md-block">
+                            <div class="card-header bg-dark text-light">{convertToWITA(googleWeatherData()[2]?.startTime)}</div>
+                            <div class="card-body bg-dark-subtle">
+                              <WeatherIcon data={googleWeatherData()[2]} />
+                              <h6 class="fw-bold py-1 mt-2">{getWeatherDescription(googleWeatherData()[2]?.rawType, googleWeatherData()[2]?.cloudCover)}</h6>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Show>
+                </div>
+
                 <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                   <div class="card-header bg-dark text-light">Global Irradiance</div>
                   <div class="card-body bg-dark-subtle">
-                    <canvas ref={(el) => (canvasRef = el)}></canvas>
+                    <canvas ref={(el) => (canvasRef = el)} style="display: block; height: 250px; width: 100%;"></canvas>
                   </div>
                 </div>
               </div>

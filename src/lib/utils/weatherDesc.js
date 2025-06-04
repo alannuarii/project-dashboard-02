@@ -3,37 +3,37 @@ export function getWeatherDescription(type, cloudCover) {
         case "CLEAR":
         case "MOSTLY_CLEAR":
         case "SUNNY":
-            return "Cerah";
+            return "Clear";
         case "PARTLY_CLOUDY":
         case "MOSTLY_SUNNY":
-            return "Cerah Berawan";
+            return "Mostly Sunny";
         case "CLOUDY":
-            return "Mendung";
+            return "Cloudy";
         case "FOG":
         case "HAZE":
-            return "Berkabut";
+            return "Foggy";
         case "RAIN":
         case "RAIN_SHOWERS":
         case "SHOWERS":
         case "DRIZZLE":
-            return "Hujan";
+            return "Rainy";
         case "THUNDERSTORM":
         case "THUNDERSTORMS":
-            return "Hujan Petir";
+            return "Thunderstorms";
         case "SNOW":
-            return "Salju";
+            return "Snow";
         case "WINDY":
-            return "Berangin";
+            return "Windy";
         default:
             break;
     }
 
     if (typeof cloudCover === 'number') {
-        if (cloudCover < 0.2) return "Cerah";
-        if (cloudCover < 0.5) return "Cerah Berawan";
-        if (cloudCover < 0.85) return "Berawan";
-        return "Mendung";
+        if (cloudCover < 0.2) return "Clear";
+        if (cloudCover < 0.5) return "Partly Cloudy";
+        if (cloudCover < 0.85) return "Mostly Cloudy";
+        return "Cloudy";
     }
 
-    return "Tidak Diketahui";
+    return "Unknown";
 }

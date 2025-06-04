@@ -1,5 +1,3 @@
-import { getWeatherDescription } from '../utils/weatherDesc';
-
 export async function fetchGoogleWeather() {
   const res = await fetch('/api/weather');
   if (!res.ok) throw new Error('Gagal mengambil data cuaca');
@@ -18,7 +16,6 @@ export async function fetchGoogleWeather() {
       endTime: forecast.interval.endTime,
       temperature: forecast.temperature?.degrees,
       feelsLike: forecast.feelsLikeTemperature?.degrees,
-      description: getWeatherDescription(type, cloudCover),
       rawType: type,
       cloudCover,
       humidity: forecast.relativeHumidity,
