@@ -6,7 +6,9 @@ export default function Battery(props) {
 
   return (
     <div class="card rounded-0 mb-2">
-      <div class="card-header bg-dark text-light">Battery Storage System</div>
+      <A href={`/plts/bss`} class="btn card-header bg-dark text-light">
+        Battery Storage System
+      </A>
       <div class="card-body bg-dark">
         <Show when={isDataAvailable(props.itData[0])} fallback={<h5 class="text-center text-light">Loading</h5>}>
           <div class="row gx-2 ">

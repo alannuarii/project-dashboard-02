@@ -1,11 +1,11 @@
 import pool from '../../../../../lib/db/mariadb.js';
 
 async function getBms(bss) {
-    let query = '';
-    const values = [];
+  let query = '';
+  const values = [];
 
-    if (bss === 'bss1') {
-        query = `
+  if (bss === 'bss1') {
+    query = `
       SELECT b.* 
       FROM battery AS b 
       INNER JOIN (
@@ -17,8 +17,8 @@ async function getBms(bss) {
       ON b.id_bms = latest.id_bms AND b.waktu = latest.latest_waktu 
       ORDER BY b.id_bms ASC
     `;
-    } else if (bss === 'bss2') {
-        query = `
+  } else if (bss === 'bss2') {
+    query = `
       SELECT b.* 
       FROM battery AS b 
       INNER JOIN (
@@ -30,24 +30,25 @@ async function getBms(bss) {
       ON b.id_bms = latest.id_bms AND b.waktu = latest.latest_waktu 
       ORDER BY b.id_bms ASC
     `;
-    } else {
-        return [];
-    }
+  } else {
+    return [];
+  }
 
-    try {
-        const [rows] = await pool.query(query, values);
-        return rows;
-    } catch (err) {
-        console.error('Database error:', err);
-        return [];
-    }
+  try {
+    const [rows] = await pool.query(query, values);
+    return rows;
+  } catch (err) {
+    console.error('Database error:', err);
+    return [];
+  }
 }
 
 export async function GET({ params }) {
-    const bss = params.bss;
-    const result = await getBms(bss);
+  // console.log(params)
+  const bss = params.bss;
+  const result = await getBms(bss);
 
-    return new Response(JSON.stringify(result), {
-        headers: { 'Content-Type': 'application/json' }
-    });
+  return new Response(JSON.stringify(result), {
+    headers: { 'Content-Type': 'application/json' }
+  });
 }

@@ -1,3 +1,4 @@
+import { createMemo } from "solid-js";
 import { getWeatherDescription } from "~/lib/utils/weatherDesc";
 
 const weatherImageMap = {
@@ -14,8 +15,21 @@ const weatherImageMap = {
 };
 
 export default function WeatherIcon(props) {
-  const description = getWeatherDescription(props.data?.rawType, props.data?.cloudCover);
-  const imageName = weatherImageMap[description] || "tidak-diketahui.png";
+  const description = createMemo(() =>
+    getWeatherDescription(props.data?.rawType, props.data?.cloudCover)
+  );
 
-  return <img src={`/img/weathers/${imageName}`} alt={description} title={description} width={64} height={64} />;
+  const imageName = createMemo(() =>
+    weatherImageMap[description()] || "tidak-diketahui.png"
+  );
+
+  return (
+    <img
+      src={`/img/weathers/${imageName()}`}
+      alt={description()}
+      title={description()}
+      width={64}
+      height={64}
+    />
+  );
 }
