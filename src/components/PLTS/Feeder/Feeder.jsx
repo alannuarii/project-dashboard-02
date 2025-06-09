@@ -28,7 +28,7 @@ export default function Feeder(props) {
           <span class="badge rounded-0 text-bg-success">Operating</span>
         </Show>
       </div>
-      <Show when={isDataAvailable(props.lvswData[0])} fallback={<h5 class="text-center text-light">Loading</h5>}>
+      <Show when={isDataAvailable(props.lvswData[0]) || isDataAvailable(props.lvswData[1])} fallback={<h5 class="text-center text-light">Loading</h5>}>
         <div class="card rounded-0 mb-2">
           <div class="card-header bg-dark text-light">Active Power</div>
           <div class="card-body bg-dark-subtle">

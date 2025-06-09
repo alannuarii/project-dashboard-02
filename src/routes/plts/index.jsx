@@ -42,7 +42,7 @@ export default function PltsPage() {
     if (field === "External Temperature" || field === "Air Temperature") {
       return "°C";
     } else if (field === "Global Irradiance") {
-      return "W/m2";
+      return "kW/m2";
     } else if (field === "Wind Direction") {
       return "°";
     } else if (field === "Wind Speed") {

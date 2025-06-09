@@ -53,10 +53,10 @@ export default function Unit() {
   let apRef, rpRef, voltRef, currRef;
 
   onMount(() => {
-    activePowerChart = initChart(apRef, "Active Power", activePowerData, ["kW"], ["#4caf50"]);
-    reactivePowerChart = initChart(rpRef, "Reactive Power", reactivePowerData, ["kVAR"], ["#ff9800"]);
-    voltageChart = initChart(voltRef, "Voltage", voltageData, ["L1-L2", "L2-L3", "L3-L1"], ["#2196f3", "#03a9f4", "#00bcd4"]);
-    currentChart = initChart(currRef, "Current", currentData, ["L1", "L2", "L3"], ["#e91e63", "#9c27b0", "#673ab7"]);
+    activePowerChart = initChart(apRef, "Active Power", activePowerData, ["Active Power (kW)"], ["#4caf50"]);
+    reactivePowerChart = initChart(rpRef, "Reactive Power", reactivePowerData, ["Reactive Power (kVAR)"], ["#ff9800"]);
+    voltageChart = initChart(voltRef, "Voltage", voltageData, ["L1-L2 (A)", "L2-L3 (A)", "L3-L1 (A)"], ["#2196f3", "#03a9f4", "#00bcd4"]);
+    currentChart = initChart(currRef, "Current", currentData, ["L1 (V)", "L2 (V)", "L3 (V)"], ["#e91e63", "#9c27b0", "#673ab7"]);
   });
 
   return (
@@ -173,7 +173,7 @@ export default function Unit() {
                   Capability Curve
                 </A>
               </div>
-              <div class="row mb-4">
+              <div class="row gx-0 mb-4">
                 <div class="col-6">
                   <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Active Power</div>
@@ -191,7 +191,7 @@ export default function Unit() {
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div class="row gx-0">
                 <div class="col-6">
                   <div class="card border-2 border-light rounded-0 mb-2 mx-3">
                     <div class="card-header bg-dark text-light">Voltage Generator</div>

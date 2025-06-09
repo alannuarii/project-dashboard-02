@@ -57,7 +57,7 @@ export default function WeatherStationPage() {
     if (field === "External Temperature" || field === "Air Temperature") {
       return "°C";
     } else if (field === "Global Irradiance") {
-      return "W/m2";
+      return "kW/m2";
     } else if (field === "Wind Direction") {
       return "°";
     } else if (field === "Wind Speed") {
@@ -97,7 +97,7 @@ export default function WeatherStationPage() {
     // Inisialisasi chart dengan dua dataset
     setTimeout(() => {
       if (canvasRef) {
-        irradianceChart = initChart(canvasRef, "Global Irradiance vs Total LVSW", [], ["Global Irradiance", "PLTS"], ["orange", "blue"]);
+        irradianceChart = initChart(canvasRef, "Global Irradiance vs Total LVSW", [], ["Global Irradiance (kW/m2)", "PLTS (kW)"], ["orange", "blue"]);
       }
     }, 500);
   });

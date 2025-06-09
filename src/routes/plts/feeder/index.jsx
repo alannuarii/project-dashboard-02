@@ -81,10 +81,10 @@ export default function FeederPage() {
   });
 
   onMount(() => {
-    lvsw1Chart = initChart(lvsw1Ref, "Active Power", lvsw1ChartData, ["kW"], ["#4caf50"]);
-    lvsw2Chart = initChart(lvsw2Ref, "Active Power", lvsw2ChartData, ["kW"], ["#ff9800"]);
-    totalActiveChart = initChart(totalActiveRef, "Active Power Total", totalActiveChartData, ["kW"], ["#2196f3"]);
-    totalReactiveChart = initChart(totalReactiveRef, "Reactive Power Total", totalReactiveChartData, ["kVAR"], ["#f44336"]);
+    lvsw1Chart = initChart(lvsw1Ref, "Active Power", lvsw1ChartData, ["Active Power (kW)"], ["#4caf50"]);
+    lvsw2Chart = initChart(lvsw2Ref, "Active Power", lvsw2ChartData, ["Active Power (kW)"], ["#ff9800"]);
+    totalActiveChart = initChart(totalActiveRef, "Active Power Total", totalActiveChartData, ["Active Power (kW)"], ["#2196f3"]);
+    totalReactiveChart = initChart(totalReactiveRef, "Reactive Power Total", totalReactiveChartData, ["Reactive Power (kVAR)"], ["#f44336"]);
   });
 
   return (
@@ -103,13 +103,13 @@ export default function FeederPage() {
               </div>
               <div class="col-8">
                 <div class="d-flex ms-3">
-                  <A href={`/plts/bss/timeframe`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  <A href={`/plts/feeder/timeframe/totlvsw`} class="mb-2 rounded-0 btn btn-sm btn-light">
                     Timeframe Total
                   </A>
-                  <A href={`/plts/bss/timeframe/1`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  <A href={`/plts/feeder/timeframe/1`} class="mb-2 rounded-0 btn btn-sm btn-light">
                     Timeframe Feeder 1
                   </A>
-                  <A href={`/plts/bss/timeframe/2`} class="mb-2 rounded-0 btn btn-sm btn-light">
+                  <A href={`/plts/feeder/timeframe/2`} class="mb-2 rounded-0 btn btn-sm btn-light">
                     Timeframe Feeder 2
                   </A>
                 </div>

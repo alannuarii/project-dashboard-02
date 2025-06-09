@@ -1,23 +1,35 @@
 import { createSignal, onMount, onCleanup, createEffect } from "solid-js";
+import { useParams } from "@solidjs/router";
 import Chart from "chart.js/auto";
 import "chartjs-adapter-date-fns";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { fetchWSTimeframeData } from "~/lib/fetching/weatherstation";
+import { fetchPMTimeframeData } from "~/lib/fetching/plts";
 
-export default function Unit() {
-  const [data, setWsData] = createSignal([]);
+export default function TimeframeBSS() {
+  const [data, setLvswData] = createSignal([]);
   const [error, setError] = createSignal(null);
   const [timeframe, setTimeframe] = createSignal("1h");
-  const [parameter, setParameter] = createSignal("gi");
+  const [parameter, setParameter] = createSignal("active");
   let chartInstance = null;
   let chartCanvas;
 
   // Fungsi untuk fetch data
   const fetchData = async () => {
     try {
-      const weatherStation = await fetchWSTimeframeData(timeframe());
-      setWsData(weatherStation);
-      setError(null);
+      const feeder = useParams().feeder;
+      if (feeder === "1") {
+        const lvsw = await fetchPMTimeframeData("LVSW1", timeframe());
+        setLvswData(lvsw);
+        setError(null);
+      } else if (feeder === "2") {
+        const lvsw = await fetchPMTimeframeData("LVSW2", timeframe());
+        setLvswData(lvsw);
+        setError(null);
+      } else {
+        const lvsw = await fetchPMTimeframeData("totlvsw", timeframe());
+        setLvswData(lvsw);
+        setError(null);
+      }
     } catch (err) {
       setError(err.message);
       console.error("Fetch error:", err);
@@ -38,7 +50,7 @@ export default function Unit() {
       data: {
         datasets: [
           {
-            label: "Global Irradiance",
+            label: "Active Power",
             data: [],
             borderColor: "#4caf50",
             backgroundColor: "#4caf50",
@@ -150,45 +162,45 @@ export default function Unit() {
     let color = "#4caf50";
 
     switch (parameter()) {
-      case "gi":
-        filteredData = newData.filter((d) => d._field === "Global Irradiance");
-        label = "Global Irradiance (kW/m2)";
+      case "active":
+        filteredData = newData.filter((d) => d._field === "Active Power");
+        label = "Active Power (kW)";
         color = "#4caf50";
         break;
 
-      case "at":
-        filteredData = newData.filter((d) => d._field === "Air Temperature");
-        label = "Air Temperature (°C)";
+      case "reactive":
+        filteredData = newData.filter((d) => d._field === "Reactive Power");
+        label = "Reactive Power (kVAR)";
         color = "#ff9800";
         break;
 
-      case "et":
-        filteredData = newData.filter((d) => d._field === "External Temperature");
-        label = "External Temperature (°C)";
+      case "powerfactor":
+        filteredData = newData.filter((d) => d._field === "Power Factor");
+        label = "Power Factor";
         color = "#9c27b0";
         break;
 
-      case "rh":
-        filteredData = newData.filter((d) => d._field === "Relative Humidity");
-        label = "Relative Humidity (%)";
+      case "frequency":
+        filteredData = newData.filter((d) => d._field === "Frequency");
+        label = "Frequency (Hz)";
         color = "#673ab7";
         break;
 
-      case "wd":
-        filteredData = newData.filter((d) => d._field === "Wind Direction");
-        label = "Wind Direction (°)";
+      case "voltage":
+        filteredData = newData.filter((d) => d._field === "Voltage");
+        label = "Voltage (V)";
         color = "#2196f3";
         break;
 
-      case "ws":
-        filteredData = newData.filter((d) => d._field === "Wind Speed");
-        label = "Wind Speed (m/s)";
+      case "current":
+        filteredData = newData.filter((d) => d._field === "Current");
+        label = "Current (m/s)";
         color = "#03a9f4";
         break;
 
       default:
-        filteredData = newData.filter((d) => d._field === "Global Irradiance");
-        label = "Global Irradiance";
+        filteredData = newData.filter((d) => d._field === "Active Power");
+        label = "Active Power (kW)";
         color = "#4caf50";
     }
 
@@ -255,12 +267,12 @@ export default function Unit() {
         <div>
           <label class="text-light">Parameter:</label>
           <select class="form-select rounded-0" value={parameter()} onChange={(e) => setParameter(e.target.value)}>
-            <option value="gi">Global Irradiance</option>
-            <option value="at">Air Temperature</option>
-            <option value="et">External Temperature</option>
-            <option value="rh">Relative Humidity</option>
-            <option value="wd">Wind Direction</option>
-            <option value="ws">Wind Speed</option>
+            <option value="active">Active Power</option>
+            <option value="reactive">Reactive Power</option>
+            <option value="voltage">Voltage</option>
+            <option value="current">Current</option>
+            <option value="frequency">Frequency</option>
+            <option value="powerfactor">Power Factor</option>
           </select>
         </div>
 
@@ -279,12 +291,12 @@ export default function Unit() {
 
       <div class="card border-2 border-light rounded-0 mb-2 mx-3 text-center" style="height:500px;">
         <div class="card-header bg-dark text-light">
-          <Show when={parameter() === "gi"}>Global Irradiance</Show>
-          <Show when={parameter() === "at"}>Air Temperature</Show>
-          <Show when={parameter() === "et"}>External Temperature</Show>
-          <Show when={parameter() === "rh"}>Relative Humidity</Show>
-          <Show when={parameter() === "wd"}>Wind Direction</Show>
-          <Show when={parameter() === "ws"}>Wind Speed</Show>
+          <Show when={parameter() === "active"}>Active Power</Show>
+          <Show when={parameter() === "reactive"}>Reactive Power</Show>
+          <Show when={parameter() === "powerfactor"}>Power Factor</Show>
+          <Show when={parameter() === "frequency"}>Frequency</Show>
+          <Show when={parameter() === "voltage"}>Voltage</Show>
+          <Show when={parameter() === "current"}>Current</Show>
         </div>
         <div class="card-body bg-dark-subtle p-0">
           <canvas ref={(el) => (chartCanvas = el)} style="display: block; height: 100%; width: 100%;"></canvas>
