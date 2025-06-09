@@ -18,25 +18,13 @@ export default function Feeder(props) {
           <div class="card rounded-0 mb-2">
             <div class="card-header bg-dark text-light">Reactive Power</div>
             <div class="card-body bg-dark-subtle">
-              <h6>{props.lvswData[0]?._value.toFixed(0)} kW</h6>
+              <h6>{props.lvswData[4]?._value.toFixed(0)} kVAR</h6>
             </div>
           </div>
           <div class="card rounded-0 mb-2">
             <div class="card-header bg-dark text-light">Power Factor</div>
             <div class="card-body bg-dark-subtle">
-              <h6>{props.lvswData[0]?._value.toFixed(0)} kW</h6>
-            </div>
-          </div>
-          <div class="card rounded-0 mb-2">
-            <div class="card-header bg-dark text-light">Voltage</div>
-            <div class="card-body bg-dark-subtle">
-              <h6>{props.lvswData[0]?._value.toFixed(0)} kW</h6>
-            </div>
-          </div>
-          <div class="card rounded-0 mb-2">
-            <div class="card-header bg-dark text-light">Current</div>
-            <div class="card-body bg-dark-subtle">
-              <h6>{props.lvswData[0]?._value.toFixed(0)} kW</h6>
+              <h6>{props.lvswData[3]?._value.toFixed(0)}</h6>
             </div>
           </div>
         </Show>

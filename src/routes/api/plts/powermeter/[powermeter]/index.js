@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { queryInfluxDB } from '../../../../lib/db/influxdb.js';
+import { queryInfluxDB } from '../../../../../lib/db/influxdb.js';
 
 const token = process.env.TOKEN;
 const org = process.env.ORG;

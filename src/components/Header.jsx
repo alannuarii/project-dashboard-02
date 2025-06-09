@@ -6,7 +6,7 @@ export default function Header() {
       <div class="container-fluid">
         <a class="navbar-brand text-light fw-bold" href="/">
           <img src="/img/np.png" alt="Logo" height="24" class="d-inline-block align-text-top me-3" />
-          <span class="d-none d-md-inline">Dashboard PLTD Tahuna</span>
+          <span class="d-none d-md-inline">PLTD Tahuna Super App</span>
         </a>
         <div class="d-flex align-items-center">
           <div class="me-4 d-none d-md-flex">

@@ -9,7 +9,7 @@ const bucket = process.env.BUCKET;
 const url = process.env.URL;
 
 export async function GET({ params }) {
-  const { unit, timeframe } = params;
+  const { timeframe } = params;
 
   const aggregateWindow = {
     '1h': '3m',

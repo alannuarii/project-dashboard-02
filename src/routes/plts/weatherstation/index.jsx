@@ -1,7 +1,7 @@
 import { createSignal, onCleanup, onMount, createEffect } from "solid-js";
 import { A } from "@solidjs/router";
 import { fetchWSData } from "~/lib/fetching/weatherstation";
-import { fetchPMData } from "~/lib/fetching/pmPlts";
+import { fetchPMData } from "~/lib/fetching/plts";
 import { fetchGoogleWeather } from "~/lib/fetching/googleWeather";
 import { updateChart, initChart } from "~/lib/utils/chart";
 import WeatherIcon from "~/components/Weather";

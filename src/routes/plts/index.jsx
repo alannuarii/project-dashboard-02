@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 import { fetchPltsData } from "~/lib/fetching/plts";
 import Feeder from "~/components/Feeder";
 import WeatherStation from "~/components/WeatherStation";
-import Battery from "~/components/Battery";
+import Battery from "~/components/PLTS/Battery/Battery";
 import "./index.css";
 
 export default function PltsPage() {
@@ -49,18 +49,6 @@ export default function PltsPage() {
       return "m/s";
     } else if (field === "Relative Humidity") {
       return "%";
-    } else if (field.includes("Voltage")) {
-      return "V";
-    } else if (field.includes("Current")) {
-      return "A";
-    } else if (field === "Generator Frequency") {
-      return "Hz";
-    } else if (field === "Power Factor") {
-      return "";
-    } else if (field === "Active Power") {
-      return "kW";
-    } else if (field === "Reactive Power") {
-      return "kVAR";
     }
   };
 
@@ -82,7 +70,9 @@ export default function PltsPage() {
               </Show>
               <div class="card bg-dark rounded-0 border-2 border-light p-2">
                 <div class="mb-2">
-                  <h5 class="unit text-light d-block">PLTS Sangihe</h5>
+                  <A href={`/plts/feeder`} class="unit text-light d-block">
+                    PLTS Sangihe
+                  </A>
                   <Show when={lvsw1Data()[0]?._value > 0} fallback={lvsw1Data()[0]?._value <= 0 ? <span class="badge rounded-0 text-bg-warning">Standby</span> : <span class="badge rounded-0 text-bg-secondary">Not Available</span>}>
                     <span class="badge rounded-0 text-bg-success">Operating</span>
                   </Show>
@@ -101,12 +91,6 @@ export default function PltsPage() {
                           <div class="card-header bg-dark text-light">Reactive Power</div>
                           <div class="card-body bg-dark-subtle">
                             <h6>{lvsw1Data()[4]?._value > 0 ? (lvsw1Data()[4]?._value + lvsw2Data()[4]?._value).toFixed(0) : 0} kVAR</h6>
-                          </div>
-                        </div>
-                        <div class="card rounded-0 d-none d-md-block">
-                          <div class="card-header bg-dark text-light">Power Factor</div>
-                          <div class="card-body bg-dark-subtle">
-                            <h6>{lvsw1Data()[3]?._value > 0 ? lvsw1Data()[3]?._value.toFixed(2) : 0}</h6>
                           </div>
                         </div>
                       </Show>

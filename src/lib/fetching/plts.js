@@ -1,10 +1,10 @@
 export async function fetchPltsData() {
     try {
       const [lvsw1Res, lvsw2Res, it1Res, it2Res, wsRes] = await Promise.all([
-        fetch("/api/plts/LVSW1"),
-        fetch("/api/plts/LVSW2"),
-        fetch("/api/plts/IT1"),
-        fetch("/api/plts/IT2"),
+        fetch("/api/plts/powermeter/LVSW1"),
+        fetch("/api/plts/powermeter/LVSW2"),
+        fetch("/api/plts/powermeter/IT1"),
+        fetch("/api/plts/powermeter/IT2"),
         fetch("/api/plts/weatherstation"),
       ]);
   
@@ -35,6 +35,38 @@ export async function fetchPltsData() {
       throw error;
     }
   }
+
+  export async function fetchPMData(powermeter) {
+    try {
+      const response = await fetch(`/api/plts/powermeter/${powermeter}`);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch Weather Station data");
+      }
+  
+      const data = await response.json();
+      return data; // Mengembalikan data hasil fetch
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  
+  
+  export async function fetchPMTimeframeData(powermeter, timeframe) {
+    try {
+      const response = await fetch(`/api/plts/powermeter/${powermeter}/${timeframe}`);
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch Weather Station data");
+      }
+  
+      const data = await response.json();
+      return data; 
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   
 // Promise Banyak dengan Setter dan OnError 
 // export async function fetchPltsData(setters, onError) {
