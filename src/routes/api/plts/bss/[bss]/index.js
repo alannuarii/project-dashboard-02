@@ -1,4 +1,4 @@
-import pool from '../../../../../lib/db/mariadb.js';
+import { poolMain } from "../../../../../lib/db/mariadb"
 
 async function getBms(bss) {
   let query = '';
@@ -35,7 +35,7 @@ async function getBms(bss) {
   }
 
   try {
-    const [rows] = await pool.query(query, values);
+    const [rows] = await poolMain.query(query, values);
     return rows;
   } catch (err) {
     console.error('Database error:', err);

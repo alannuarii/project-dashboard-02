@@ -28,17 +28,21 @@ export default function PltdPage() {
   };
 
   onMount(() => {
-    const fetchAll = () =>
-      fetchPltdData(
-        {
-          setDg1Data,
-          setDg6Data,
-          setDg7Data,
-          setDg8Data,
-          setDg9Data,
-        },
-        setError
-      );
+    const fetchAll = async () => {
+      try {
+        const { dg1Data: dg1, dg6Data: dg6, dg7Data: dg7, dg8Data: dg8, dg9Data: dg9 } = await fetchPltdData();
+
+        setDg1Data(dg1);
+        setDg6Data(dg6);
+        setDg7Data(dg7);
+        setDg8Data(dg8);
+        setDg9Data(dg9);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        console.error("Fetch error:", err);
+      }
+    };
 
     fetchAll();
     const interval = setInterval(fetchAll, 1000);
