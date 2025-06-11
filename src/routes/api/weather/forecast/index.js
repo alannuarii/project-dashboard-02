@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 export async function GET() {
   const apiKey = process.env.WEATHER_API_KEY;
   const latitude = 3.617790964635497;

@@ -169,7 +169,7 @@ export default function Home() {
                         BSS
                       </A>
                       <div class="d-flex justify-content-center align-items-center py-3">
-                        <Show when={it1Data()[0]?._value <= 0 || it2Data()[0]?._value <= 0} fallback={<img src={statusImages["batt-off"]} class="card-img-top" alt="..."></img>}>
+                        <Show when={it1Data()[0]?._value > 0 || it2Data()[0]?._value > 0} fallback={<img src={statusImages["batt-off"]} class="card-img-top" alt="..."></img>}>
                           <img src={statusImages["batt-on"]} class="card-img-top" alt="..."></img>
                         </Show>
                       </div>
@@ -184,12 +184,12 @@ export default function Home() {
                         IRRADIANCE
                       </A>
                       <div class="d-flex justify-content-center align-items-center py-3">
-                        <Show when={isDataAvailable(wsData())} fallback={<img src={statusImages["sun-off"]} class="card-img-top" alt="..."></img>}>
+                        <Show when={wsData()[2]?._value > 0} fallback={<img src={statusImages["sun-off"]} class="card-img-top" alt="..."></img>}>
                           <img src={statusImages["sun-on"]} class="card-img-top" alt="..."></img>
                         </Show>
                       </div>
                       <div class="py-2 bg-dark-subtle">
-                        <h6 class="text-dark">{wsData()[2]?._value.toFixed(0) || 0} kW/m2</h6>
+                        <h6 class="text-dark">{wsData()[2]?._value.toFixed(0)} kW/m2</h6>
                       </div>
                     </div>
                   </div>

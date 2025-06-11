@@ -2,10 +2,7 @@
 import { OAuth2Client } from "google-auth-library";
 import { useSession } from "vinxi/http";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { poolAuth } from "~/lib/db/mariadb";
-
-dotenv.config();
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;

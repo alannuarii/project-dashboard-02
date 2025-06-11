@@ -1,23 +1,29 @@
-// routes/auth/logout/+server.js
+import { serialize } from "cookie"; // Gunakan library cookie untuk membuat header Set-Cookie
 import { useSession } from "vinxi/http";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export async function GET() {
-    "use server";
+  const session = await useSession({
+    password: process.env.SESSION_SECRET,
+    name: "auth",
+  });
 
-    const session = await useSession({
-        password: process.env.SESSION_SECRET,
-        name: "session",
-    });
+  // Hapus session di sisi server (jika diperlukan)
+  await session.update({});
 
-    await session.clear();
+  // Hapus cookie secara manual dengan Set-Cookie
+  const expiredCookie = serialize("auth", "", {
+    path: "/",
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true, // atau false jika di dev (http)
+    expires: new Date(0),
+  });
 
-    return new Response(null, {
-        status: 302,
-        headers: {
-            Location: "/auth/login",
-        },
-    });
+  return new Response(null, {
+    status: 302,
+    headers: {
+      "Location": "/auth/login",
+      "Set-Cookie": expiredCookie,
+    },
+  });
 }

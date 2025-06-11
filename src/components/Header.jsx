@@ -12,9 +12,14 @@ export default function Header() {
           <div class="me-4 d-none d-md-flex">
             <Timer />
           </div>
-          <a href="/logout" class="logout btn btn-sm btn-danger border-2 border rounded-0 text-light">
+          <button
+            class="logout btn btn-sm btn-danger border-2 border rounded-0 text-light"
+            onClick={() => {
+              window.location.href = "/api/auth/logout";
+            }}
+          >
             Logout
-          </a>
+          </button>
         </div>
       </div>
     </nav>

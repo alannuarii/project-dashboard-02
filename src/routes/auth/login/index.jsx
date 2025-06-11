@@ -1,13 +1,13 @@
 export default function Login() {
   return (
-    <section class="container-fluid d-flex justify-content-center align-items-center w-50 custom-section">
-      <div class="card bg-dark p-5 shadow rounded-0">
+    <section class="container-fluid d-flex justify-content-center align-items-center w-25">
+      <div class="bg-dark p-5">
         <div class="d-flex justify-content-center">
-          <img src="/img/np.png" class="img-fluid mb-4 custom-logo" alt="Logo" />
+          <img src="/img/np.png" class="img-fluid mb-4 custom-logo" alt="Logo" width={`50%`} />
         </div>
         <div class="text-center text-light">
-          <h5 class="fw-bold">LOGIN</h5>
-          <h6>DASHBOARD PLTD TAHUNA</h6>
+          <h4 class="fw-bold">LOGIN</h4>
+          <h5 class="fw-light">PLTD TAHUNA SUPER APP</h5>
         </div>
         <div>
           <button
