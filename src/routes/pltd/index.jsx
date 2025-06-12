@@ -56,7 +56,7 @@ export default function PltdPage() {
           when={error()}
           fallback={
             <div class="row mx-3 text-center">
-              <Show when={isDataAvailable(dg9Data()) || isDataAvailable(dg8Data()) || isDataAvailable(dg7Data()) || isDataAvailable(dg6Data()) || isDataAvailable(dg1Data())}>
+              <Show when={isDataAvailable(dg9Data()) || isDataAvailable(dg8Data()) || isDataAvailable(dg7Data()) || isDataAvailable(dg6Data()) || isDataAvailable(dg1Data())} fallback={<h5 class="text-light freq">00.00 Hz</h5>}>
                 <h5 class="text-light freq">{frequency().toFixed(2)} Hz</h5>
               </Show>
               <div class="row gx-3">

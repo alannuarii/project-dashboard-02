@@ -65,7 +65,7 @@ export default function PltsPage() {
           when={error()}
           fallback={
             <div class="row mx-3 text-center">
-              <Show when={isDataAvailable(lvsw1Data()) || isDataAvailable(lvsw2Data())}>
+              <Show when={isDataAvailable(lvsw1Data()) || isDataAvailable(lvsw2Data())} fallback={<h5 class="text-light freq">00.00 Hz</h5>}>
                 <h5 class="text-light freq mb-2">{frequency().toFixed(2)} Hz</h5>
               </Show>
               <div class="card bg-dark rounded-0 border-2 border-light p-2">
