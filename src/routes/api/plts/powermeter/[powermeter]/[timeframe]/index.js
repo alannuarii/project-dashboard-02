@@ -15,23 +15,24 @@ export async function GET({ params }) {
         '3d': '3h',
         '7d': '7h',
         '30d': '24h'
-    }[timeframe]; 
+    }[timeframe];
 
     const query = `
-from(bucket: "${bucket}")
-  |> range(start: -${timeframe})
-  |> filter(fn: (r) => r._measurement == "${powermeter}")
-  |> filter(fn: (r) => 
-    r._field == "Active Power" or 
-    r._field == "Reactive Power" or 
-    r._field == "Voltage" or 
-    r._field == "Current" or 
-    r._field == "Power Factor" or 
-    r._field == "Frequency"
-    )
-  |> aggregateWindow(every: ${aggregateWindow}, fn: mean, createEmpty: false)
-  |> yield(name: "mean")
-`;
+    maxAgg = from(bucket: "${bucket}")
+      |> range(start: -${timeframe})
+      |> filter(fn: (r) => r._measurement == "${powermeter}")
+      |> filter(fn: (r) => r._field == "Active Power" or r._field == "Reactive Power" or r._field == "Current")
+      |> aggregateWindow(every: ${aggregateWindow}, fn: max, createEmpty: false)
+
+    meanAgg = from(bucket: "${bucket}")
+      |> range(start: -${timeframe})
+      |> filter(fn: (r) => r._measurement == "${powermeter}")
+      |> filter(fn: (r) => r._field == "Voltage" or r._field == "Power Factor" or r._field == "Frequency")
+      |> aggregateWindow(every: ${aggregateWindow}, fn: mean, createEmpty: false)
+
+    union(tables: [maxAgg, meanAgg])
+      |> yield(name: "aggregated")
+    `;
 
     try {
         const result = await queryInfluxDB(token, org, url, query);
